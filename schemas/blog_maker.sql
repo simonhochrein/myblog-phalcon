@@ -16,46 +16,46 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `companies`
+-- Table structure for table `posts`
 --
 
-DROP TABLE IF EXISTS `companies`;
+DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `companies` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
-  `telephone` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
-  `address` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
-  `city` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+CREATE TABLE `posts` (
+  `post_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `text` text COLLATE utf8_spanish_ci NOT NULL,
+  `title` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `companies`
+-- Dumping data for table `posts`
 --
 
-LOCK TABLES `companies` WRITE;
+LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `companies` DISABLE KEYS */;
-INSERT INTO `companies` VALUES (1,'Acme','31566564','Address','Hello'),(2,'Acme Inc','+44 564612345','Guildhall, PO Box 270, London','London');
+INSERT INTO `posts` VALUES (1,'test','tester','first post');
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `contact`
+-- Table structure for table `comment`
 --
 
-DROP TABLE IF EXISTS `contact`;
+DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `contact` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
-  `email` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
-  `comments` text COLLATE utf8_spanish_ci NOT NULL,
+CREATE TABLE `comment` (
+  `comment_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `post_id` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
+  `comment_text` text COLLATE utf8_spanish_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -63,56 +63,7 @@ CREATE TABLE `contact` (
 -- Dumping data for table `contact`
 --
 
---
--- Table structure for table `product_types`
---
 
-DROP TABLE IF EXISTS `product_types`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `product_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `product_types`
---
-
-LOCK TABLES `product_types` WRITE;
-/*!40000 ALTER TABLE `product_types` DISABLE KEYS */;
-INSERT INTO `product_types` VALUES (5,'Vegetables'),(6,'Fruits');
-/*!40000 ALTER TABLE `product_types` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `products`
---
-
-DROP TABLE IF EXISTS `products`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `products` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `product_types_id` int(10) unsigned NOT NULL,
-  `name` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
-  `price` decimal(16,2) NOT NULL,
-  `active` enum('Y','N') COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `products`
---
-
-LOCK TABLES `products` WRITE;
-/*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,5,'Artichoke','10.50','Y'),(2,5,'Bell pepper','10.40','Y'),(3,5,'Cauliflower','20.10','Y'),(4,5,'Chinese cabbage','15.50','Y'),(5,5,'Malabar spinach','7.50','Y'),(6,5,'Onion','3.50','Y'),(7,5,'Peanut','4.50','Y');
-/*!40000 ALTER TABLE `products` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -129,6 +80,7 @@ CREATE TABLE `users` (
   `email` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `active` char(1) COLLATE utf8_spanish_ci NOT NULL,
+  `admin`  char(1) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -139,7 +91,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'demo','c0bd96dc7ea4ec56741a4e07f6ce98012814d853','Phalcon Demo','demo@phalconphp.com','2012-04-10 20:53:03','Y');
+INSERT INTO `users` VALUES (1,'demo','c0bd96dc7ea4ec56741a4e07f6ce98012814d853','Phalcon Demo','demo@phalconphp.com','2012-04-10 20:53:03','Y','Y');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
